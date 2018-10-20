@@ -1,11 +1,15 @@
+import dbHadlers.DbHandler;
+import models.Person;
+import tools.Generator;
+
+import java.sql.SQLException;
 import java.util.List;
 
-//HELLO
 public class Main {
 
-    public static void main(String[] args) {
-        List<Person> generate = Generator.generate(100000);
-        DbExecutor executor = new DbExecutor();
+    public static void main(String[] args) throws SQLException {
+        List<Person> generate = Generator.generate(10000);
+        DbHandler executor = new DbHandler();
         executor.insert(generate);
 
     }
