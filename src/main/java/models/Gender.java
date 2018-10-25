@@ -4,7 +4,7 @@ public enum Gender {
     MALE,
     FEMALE;
 
-    static public Gender getbyNumber(int index) {
+    static public Gender getByInt(int index) {
         return Gender.values()[index];
     }
 }

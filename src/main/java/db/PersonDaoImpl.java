@@ -45,7 +45,7 @@ public class PersonDaoImpl implements PersonDao {
                 String name = resultSet.getString("NAME");
                 String surname = resultSet.getString("SURNAME");
                 int age = resultSet.getInt("AGE");
-                Gender gender = Gender.getbyNumber(resultSet.getInt("GENDER"));
+                Gender gender = Gender.valueOf(resultSet.getString("GENDER"));
                 int tax_number = resultSet.getInt("TAX_NUMBER");
                 String region = resultSet.getString("REGION");
                 people.add(Person.personFactory(name, surname, gender, age, region, tax_number));
@@ -57,15 +57,15 @@ public class PersonDaoImpl implements PersonDao {
     }
 
     public void insert(List<Person> people) {
-        String sql = "INSERT INTO PEOPLE (NAME, SURNAME, GENDER, AGE, REGION, TAX_NUMBER) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO PEOPLE (NAME, SURNAME, GENDER, AGE, REGION, TAX_NUMBER) VALUES (?, ?, ?::gender, ?, ?, ?)";
 
         try (Connection connection = DriverManager.getConnection(host, login, password)) {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
             for (Person person : people) {
                 preparedStatement.setString(1, person.getName());
-                preparedStatement.setString(2, person.getSurName());
-                preparedStatement.setInt(3, person.getIntGender());
+                preparedStatement.setString(2, person.getSurname());
+                preparedStatement.setString(3, person.getGender().name());
                 preparedStatement.setInt(4, person.getAge());
                 preparedStatement.setString(5, person.getRegion());
                 preparedStatement.setInt(6, person.getTaxNumber());

@@ -34,7 +34,7 @@ public class Generator {
 
         List<Person> people = new LinkedList();
         for (int i = 0; i < count; i++) {
-            Gender gender = Gender.getbyNumber(randomGenerate(0, 2));
+            Gender gender = Gender.getByInt(randomGenerate(0, 2));
             String name;
             if (gender == Gender.MALE) {
                 name = maleNames.get(randomGenerate(0, maleNames.size()));

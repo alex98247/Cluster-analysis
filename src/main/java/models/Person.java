@@ -2,7 +2,7 @@ package models;
 
 public class Person {
     private String name;
-    private String surName;
+    private String surname;
     private Gender gender;
     private int age;
     private String region;
@@ -11,7 +11,7 @@ public class Person {
     public static Person personFactory(String name, String surName, Gender gender, int age, String region, int taxNumber) {
         Person person = new Person();
         person.name = name;
-        person.surName = surName;
+        person.surname = surName;
         person.age = age;
         person.region = region;
         person.taxNumber = taxNumber;
@@ -27,12 +27,12 @@ public class Person {
         this.name = name;
     }
 
-    public String getSurName() {
-        return surName;
+    public String getSurname() {
+        return surname;
     }
 
-    public void setSurName(String surName) {
-        this.surName = surName;
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     public Gender getGender() {
