@@ -1,15 +1,13 @@
-import db.*;
-import models.Person;
-import tools.Generator;
-
-import java.util.List;
+import repositories.PersonRepository;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.AbstractApplicationContext;
 
 public class Main {
 
     public static void main(String[] args) {
-        List<Person> generate = Generator.generate(10000);
-        PersonDao personDao = new PersonDaoImpl();
-        personDao.insert(generate);
+        AbstractApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
 
+        PersonRepository repository = context.getBean(PersonRepository.class);
+        repository.findAll().forEach(x->System.out.println(x.getName()));
     }
 }
