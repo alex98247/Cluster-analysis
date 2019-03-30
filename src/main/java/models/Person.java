@@ -4,7 +4,6 @@ import lombok.Data;
 
 import javax.persistence.*;
 
-@Entity
 @Data
 @Table(name = "people")
 public class Person {
@@ -20,7 +19,7 @@ public class Person {
     @Transient
     private Gender gender;
 
-    private int age;
+    public int age;
 
     private String region;
 
