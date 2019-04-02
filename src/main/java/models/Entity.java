@@ -1,10 +1,13 @@
 package models;
 
-public class Entity {
-    public double[] fields;
+import lombok.Data;
 
-    public Entity(int age){
-        fields = new double[1];
-        fields[0] = age;
+@Data
+public class Entity {
+
+    private double age;
+
+    public Entity(int age) {
+        this.age = age;
     }
 }

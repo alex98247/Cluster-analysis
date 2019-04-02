@@ -1,6 +1,7 @@
 package tools;
 
-import java.awt.Color;
+import java.awt.*;
+import java.awt.geom.Point2D;
 import java.util.Arrays;
 
 import javax.swing.JFrame;
@@ -17,7 +18,8 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 public class Graphic extends JFrame {
-    XYDataset dataset;
+
+    private XYDataset dataset;
 
     public Graphic(String title) {
         super(title);
@@ -42,18 +44,14 @@ public class Graphic extends JFrame {
 
     }
 
-    public void setData(double[] vec) {
+    public void setData(Point2D[] data, Point2D[] clusterCenters) {
 
         XYSeries series1 = new XYSeries("Points");
-        series1.add(1, 0);
-        series1.add(2, 0);
-        series1.add(3, 0);
-        series1.add(10, 0);
-        series1.add(11, 0);
-        series1.add(13, 0);
+        Arrays.stream(data).forEach(x -> series1.add(x.getX(), x.getY()));
         ((XYSeriesCollection) dataset).addSeries(series1);
-        XYSeries series2 = new XYSeries("Delimiter");
-        Arrays.stream(vec).forEach(x -> series2.add(x, 0));
+
+        XYSeries series2 = new XYSeries("DataCentres");
+        Arrays.stream(clusterCenters).forEach(x -> series2.add(x.getX(), x.getY()));
         ((XYSeriesCollection) dataset).addSeries(series2);
     }
 }

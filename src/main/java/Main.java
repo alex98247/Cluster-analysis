@@ -1,9 +1,13 @@
 import models.Entity;
-import services.KohonenNetworkImpl;
+import services.kohonenNetwork.KohonenNetworkImpl;
+import services.kohonenNetwork.Neuron;
 import tools.Graphic;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.geom.Point2D;
 import java.util.Arrays;
+import java.util.Collections;
 
 public class Main {
 
@@ -12,13 +16,25 @@ public class Main {
         //PersonRepository repository = context.getBean(PersonRepository.class);
 
         KohonenNetworkImpl kohonenNetwork = new KohonenNetworkImpl(1, 2);
-        kohonenNetwork.train(new Entity(1));
-        kohonenNetwork.train(new Entity(2));
-        kohonenNetwork.train(new Entity(3));
-        kohonenNetwork.train(new Entity(10));
-        kohonenNetwork.train(new Entity(11));
-        kohonenNetwork.train(new Entity(11));
-        kohonenNetwork.train(new Entity(13));
+        Entity[] entities = new Entity[]{
+                new Entity(1),
+                new Entity(2),
+                new Entity(3),
+                new Entity(10),
+                new Entity(11),
+                new Entity(12),
+                new Entity(13),
+        };
+        Point2D.Double[] dataSet = Arrays.stream(entities).map(x -> new Point2D.Double(x.getAge(), 0)).toArray(Point2D.Double[]::new);
+
+        Arrays.stream(entities).forEach(x -> {
+            try {
+                kohonenNetwork.train(x);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
 
         System.out.println(kohonenNetwork.handle(new Entity(3)));
         System.out.println(kohonenNetwork.handle(new Entity(5)));
@@ -26,8 +42,9 @@ public class Main {
 
         SwingUtilities.invokeLater(() -> {
             Graphic example = new Graphic("Diagram");
-            double[] vec = Arrays.stream(kohonenNetwork.neurons).map(x -> x.weight[0]).mapToDouble(x -> x).toArray();
-            example.setData(vec);
+            Neuron[] neurons = kohonenNetwork.getConfiguration();
+            Point2D.Double[] clusterCenters = Arrays.stream(neurons).map(x -> new Point2D.Double(x.weight[0], 0)).toArray(Point2D.Double[]::new);
+            example.setData(dataSet, clusterCenters);
             example.setSize(800, 400);
             example.setLocationRelativeTo(null);
             example.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
