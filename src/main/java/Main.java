@@ -1,12 +1,16 @@
-import java.util.List;
+import javax.swing.*;
 
-//HELLO
 public class Main {
 
-    public static void main(String[] args) {
-        List<Person> generate = Generator.generate(100000);
-        DbExecutor executor = new DbExecutor();
-        executor.insert(generate);
+    public static void main(String[] args){
+        MyJGraphXAdapter applet = new MyJGraphXAdapter();
+        applet.init();
 
+        JFrame frame = new JFrame();
+        frame.getContentPane().add(applet);
+        frame.setTitle("JGraphT Adapter to JGraphX Demo");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
     }
 }
