@@ -3,7 +3,9 @@ import javax.swing.*;
 public class Main {
 
     public static void main(String[] args){
-        MyJGraphXAdapter applet = new MyJGraphXAdapter();
+        int maxPersonNumber = 100;
+        int maxDistance = 5;
+        MyJGraphXAdapter applet = new MyJGraphXAdapter(maxPersonNumber, maxDistance);
         applet.init();
 
         JFrame frame = new JFrame();
