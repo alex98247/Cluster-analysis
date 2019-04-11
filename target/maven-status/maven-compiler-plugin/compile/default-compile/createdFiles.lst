@@ -1,6 +1,0 @@
-Main.class
-tools/Metric.class
-models/Person.class
-dbHadlers/DbHandler.class
-tools/Generator.class
-models/Gender.class
