@@ -7,7 +7,7 @@ public class Entity {
 
     private double age;
 
-    public Entity(int age) {
+    public Entity(Double age) {
         this.age = age;
     }
 }

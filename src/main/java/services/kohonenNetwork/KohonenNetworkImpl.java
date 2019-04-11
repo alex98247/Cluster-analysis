@@ -4,6 +4,7 @@ import models.Entity;
 import tools.Metric;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -11,9 +12,9 @@ import java.util.List;
 public class KohonenNetworkImpl implements KohonenNetwork {
 
     private Neuron[] neurons;
-    double learningConstant = 0.3;
-    int inputDimension;
-    int outDimension;
+    private final double learningConstant = 0.3;
+    private final int inputDimension;
+    private final int outDimension;
 
 
     public KohonenNetworkImpl(int inputDimension, int outDimension) {
@@ -25,29 +26,33 @@ public class KohonenNetworkImpl implements KohonenNetwork {
     }
 
     public void train(Entity entity) throws Exception {
+        Field[] a = entity.getClass().getDeclaredFields();
+        int minDistanceIndex = getMinDistanceIndex(entity);
 
-        double field = entity.getAge();
-        int minIndex = getMinIndex(entity);
-
+        //Update neuron weights for neuron with minDistanceIndex
         for (int i = 0; i < inputDimension; i++) {
-            neurons[minIndex].weight[i] += learningConstant * (field - neurons[minIndex].weight[i]);
+
+            Field field = a[i];
+            field.setAccessible(true);
+            double fieldValue = field.getDouble(entity);
+            double weight = neurons[minDistanceIndex].weight[i];
+            neurons[minDistanceIndex].weight[i] += learningConstant * (fieldValue - weight);
         }
     }
 
-    public int handle(Entity entity) throws Exception {
+    public int handle(Entity entity) throws Exception { return getMinDistanceIndex(entity); }
 
-        return getMinIndex(entity);
-    }
-
-    private int getMinIndex(Entity entity) throws Exception {
+    private int getMinDistanceIndex(Entity entity) throws Exception {
 
         double field = entity.getAge();
         List<Double> distances = new LinkedList<>();
 
         for (int i = 0; i < outDimension; i++)
             distances.add(Metric.euclidMetric(new double[]{field}, neurons[i].weight));
-        int minIndex = distances.indexOf(Collections.min(distances));
-        return minIndex;
+
+        double minDistance = Collections.min(distances);
+        int minDistanceIndex = distances.indexOf(minDistance);
+        return minDistanceIndex;
     }
 
     public Neuron[] getConfiguration() {
