@@ -1,8 +1,6 @@
-package tools;
+package services.tools;
 
-public class Metric {
-
-
+public class MetricService {
 
     public static double euclidMetric(double[] vector1, double[] vector2) throws Exception {
         if (vector1.length != vector2.length) throw new Exception("Dimension is not comparable");

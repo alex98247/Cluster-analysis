@@ -1,10 +1,9 @@
 package services.kohonenNetwork;
 
 import models.Entity;
-import tools.Metric;
+import services.tools.MetricService;
 
 import java.lang.reflect.Field;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -48,11 +47,16 @@ public class KohonenNetworkImpl implements KohonenNetwork {
         List<Double> distances = new LinkedList<>();
 
         for (int i = 0; i < outDimension; i++)
-            distances.add(Metric.euclidMetric(new double[]{field}, neurons[i].weight));
+            distances.add(MetricService.euclidMetric(new double[]{field}, neurons[i].weight));
 
         double minDistance = Collections.min(distances);
         int minDistanceIndex = distances.indexOf(minDistance);
         return minDistanceIndex;
+    }
+
+    private boolean isValid(Field field){
+        if(field.getType() == Boolean.TYPE) return true;
+        return false;
     }
 
     public Neuron[] getConfiguration() {

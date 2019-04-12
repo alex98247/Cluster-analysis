@@ -65,6 +65,11 @@
             <artifactId>jfreechart</artifactId>
             <version>1.0.13</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.alex98247</groupId>
+            <artifactId>models</artifactId>
+            <version>d312ae7</version>
+        </dependency>
     </dependencies>
 
 

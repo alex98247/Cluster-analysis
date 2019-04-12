@@ -2,7 +2,7 @@ import models.Entity;
 import services.kohonenNetwork.KohonenNetwork;
 import services.kohonenNetwork.KohonenNetworkImpl;
 import services.kohonenNetwork.Neuron;
-import tools.Graphic;
+import services.tools.Graphic;
 
 import javax.swing.*;
 import java.awt.geom.Point2D;
