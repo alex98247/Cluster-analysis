@@ -3,9 +3,11 @@ package models;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
 
 @Data
 @Table(name = "people")
+@Entity
 public class Person {
 
     @Id

@@ -1,4 +1,7 @@
 import models.Entity;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.AbstractApplicationContext;
+import repositories.PersonRepository;
 import services.kohonenNetwork.KohonenNetwork;
 import services.kohonenNetwork.KohonenNetworkImpl;
 import services.kohonenNetwork.Neuron;
@@ -11,11 +14,11 @@ import java.util.Arrays;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        //AbstractApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
-        //PersonRepository repository = context.getBean(PersonRepository.class);
+        AbstractApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
+        PersonRepository repository = context.getBean(PersonRepository.class);
         //PersonModel personModel = new PersonModel();
-
-        KohonenNetwork kohonenNetwork = new KohonenNetworkImpl(1, 2);
+        KohonenNetwork kohonenNetwork = context.getBean(KohonenNetwork.class);
+        //KohonenNetwork kohonenNetwork = new KohonenNetworkImpl(1, 2);
         Entity[] entities = new Entity[]{
                 new Entity(1.0),
                 new Entity(2.0),
