@@ -1,9 +1,16 @@
 package services.tools;
 
+import org.apache.log4j.Logger;
+
 public class MetricService {
 
+    private static final Logger logger = Logger.getLogger(MetricService.class);
+
     public static double euclidMetric(double[] vector1, double[] vector2) throws IllegalArgumentException {
-        if (vector1.length != vector2.length) throw new IllegalArgumentException("Dimension is not comparable");
+        if (vector1.length != vector2.length) {
+            logger.error("Dimension is not comparable");
+            throw new IllegalArgumentException("Dimension is not comparable");
+        }
 
         double sum = 0;
         for (int i = 0; i < vector1.length; i++) {

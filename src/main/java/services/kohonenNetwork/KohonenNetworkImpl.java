@@ -1,6 +1,8 @@
 package services.kohonenNetwork;
 
-import services.tools.FormatterService;
+import org.apache.log4j.Logger;
+import services.formatterService.FormatterService;
+import services.generatorService.GeneratorService;
 import services.tools.MetricService;
 
 import java.util.Collections;
@@ -9,6 +11,7 @@ import java.util.List;
 
 public class KohonenNetworkImpl<T> implements KohonenNetwork<T> {
 
+    private static final Logger logger = Logger.getLogger(KohonenNetworkImpl.class);
     private Neuron[] neurons;
     private final double learningConstant = 0.3;
     private final int inputDimension;
@@ -23,6 +26,7 @@ public class KohonenNetworkImpl<T> implements KohonenNetwork<T> {
 
         neurons = new Neuron[outDimension];
         for (int i = 0; i < outDimension; i++) neurons[i] = new Neuron(inputDimension);
+        logger.info("Network init completed");
     }
 
     public void train(T entity) {
