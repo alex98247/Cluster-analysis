@@ -13,8 +13,8 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import services.kohonenNetwork.KohonenNetwork;
 import services.kohonenNetwork.KohonenNetworkImpl;
-import services.tools.FormatterService;
-import services.tools.FormatterServiceImpl;
+import services.formatterService.FormatterService;
+import services.formatterService.FormatterServiceImpl;
 
 import javax.sql.DataSource;
 

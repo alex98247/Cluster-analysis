@@ -1,4 +1,4 @@
-package services.tools;
+package services.generatorService;
 
 import models.Gender;
 import models.Person;
@@ -11,9 +11,9 @@ import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Generator {
+public class GeneratorService {
 
-    private static final Logger logger = Logger.getLogger(Generator.class);
+    private static final Logger logger = Logger.getLogger(GeneratorService.class);
     private static final int maxAge = 100;
     private static final int maxTaxNumber = 99999999;
 

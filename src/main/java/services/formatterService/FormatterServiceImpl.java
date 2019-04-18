@@ -1,10 +1,13 @@
-package services.tools;
+package services.formatterService;
+
+import org.apache.log4j.Logger;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
 
 public class FormatterServiceImpl<T> implements FormatterService<T> {
 
+    private static final Logger logger = Logger.getLogger(FormatterServiceImpl.class);
     private static final Class[] validTypes = new Class[]{Boolean.TYPE, Double.TYPE, Integer.TYPE, Float.TYPE};
 
     public double[] formatToDouble(T entity) {
@@ -33,7 +36,7 @@ public class FormatterServiceImpl<T> implements FormatterService<T> {
             }
 
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
             throw new RuntimeException(e);
         }
     }

@@ -1,6 +1,6 @@
 import org.junit.Assert;
 import org.junit.Test;
-import services.tools.FormatterServiceImpl;
+import services.formatterService.FormatterServiceImpl;
 
 import java.lang.reflect.Field;
 
