@@ -3,10 +3,11 @@ package models;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
 
-@Entity
 @Data
 @Table(name = "people")
+@Entity
 public class Person {
 
     @Id
@@ -20,7 +21,7 @@ public class Person {
     @Transient
     private Gender gender;
 
-    private int age;
+    public int age;
 
     private String region;
 

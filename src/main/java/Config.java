@@ -1,3 +1,4 @@
+import models.Entity;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +11,10 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
+import services.kohonenNetwork.KohonenNetwork;
+import services.kohonenNetwork.KohonenNetworkImpl;
+import services.formatterService.FormatterService;
+import services.formatterService.FormatterServiceImpl;
 
 import javax.sql.DataSource;
 
@@ -34,6 +39,18 @@ public class Config {
         driver.setUsername(dbLogin);
         driver.setPassword(dbPassword);
         return driver;
+    }
+
+    @Bean
+    public FormatterService formatService() {
+        FormatterService<Entity> formatterService = new FormatterServiceImpl<>();
+        return formatterService;
+    }
+
+    @Bean
+    public KohonenNetwork kohonenNetwork(FormatterService formatterService) {
+        KohonenNetwork kohonenNetwork = new KohonenNetworkImpl(formatterService, 1, 2);
+        return kohonenNetwork;
     }
 
     @Bean
