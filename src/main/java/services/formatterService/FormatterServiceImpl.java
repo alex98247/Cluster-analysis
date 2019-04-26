@@ -1,9 +1,11 @@
 package services.formatterService;
 
+import annotations.Statistic;
 import org.apache.log4j.Logger;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
+import java.util.function.Predicate;
 
 public class FormatterServiceImpl<T> implements FormatterService<T> {
 
@@ -12,15 +14,18 @@ public class FormatterServiceImpl<T> implements FormatterService<T> {
 
     public double[] formatToDouble(T entity) {
         Field[] fields = entity.getClass().getDeclaredFields();
+
         double[] doubleValues = Arrays.stream(fields)
                 .filter(x -> isValid(x))
                 .mapToDouble(x -> convertToDouble(x, entity))
                 .toArray();
+
         return doubleValues;
     }
 
     private boolean isValid(Field field) {
-        if (Arrays.stream(validTypes).anyMatch(field.getType()::equals)) return true;
+        Predicate<Class> isValid = e -> field.getType().equals(e) && field.getAnnotation(Statistic.class) != null;
+        if (Arrays.stream(validTypes).anyMatch(isValid)) return true;
         return false;
     }
 
