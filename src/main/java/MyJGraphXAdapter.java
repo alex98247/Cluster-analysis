@@ -1,5 +1,7 @@
 import com.mxgraph.layout.mxCircleLayout;
 import com.mxgraph.swing.mxGraphComponent;
+import info.debatty.java.stringsimilarity.JaroWinkler;
+import info.debatty.java.stringsimilarity.SorensenDice;
 import org.jgrapht.ext.JGraphXAdapter;
 import org.jgrapht.graph.*;
 import org.jgrapht.*;
@@ -12,7 +14,7 @@ import java.awt.*;
 public class MyJGraphXAdapter    extends
         JApplet {
 
-    private int maxDistance;
+    private double maxDistance = 0.9;
 
     private int maxPersonNumber;
 
@@ -22,10 +24,12 @@ public class MyJGraphXAdapter    extends
 
     private JGraphXAdapter<Person, MyEdge> jgxAdapter;
 
-    public MyJGraphXAdapter(int maxPersonNumber, int maxDistance){
+    public MyJGraphXAdapter(int maxPersonNumber, double maxDistance){
         this.maxPersonNumber = maxPersonNumber;
         this.maxDistance = maxDistance;
     }
+
+
 
     public static class MyEdge extends DefaultWeightedEdge {
         @Override
@@ -48,9 +52,9 @@ public class MyJGraphXAdapter    extends
         mxGraphComponent component = new mxGraphComponent(jgxAdapter);
         component.setConnectable(false);
         component.getGraph().setAllowDanglingEdges(false);
-        component.zoomOut();
-        component.zoomOut();
-        component.zoomOut();
+//        component.zoomOut();
+//        component.zoomOut();
+//        component.zoomOut();
 
         getContentPane().add(component);
         resize(DEFAULT_SIZE);
@@ -60,6 +64,8 @@ public class MyJGraphXAdapter    extends
 
         int i = 0;
         HashSet<Person> personSet = new HashSet<Person>();
+        //SorensenDice sorensenDice = new SorensenDice();
+        JaroWinkler metrics = new JaroWinkler();
         while (iterator.hasNext() && i < maxPersonNumber){
             Person person = iterator.next();
             g.addVertex(person);
@@ -67,7 +73,9 @@ public class MyJGraphXAdapter    extends
             for (Person curPerson:personSet) {
                 if (curPerson.equals(person))
                     continue;
-                int distance = Metrica.levenshtein(person.name, curPerson.name);
+                double distance = Metrica.getDistance(person.name, curPerson.name);
+//                double distance = metrics.distance(person.name, curPerson.name);
+//                double distance = Metrica.levenshtein(person.name, curPerson.name);
                 if (distance < maxDistance) {
                     MyEdge edge = g.addEdge(person, curPerson);
                     g.setEdgeWeight(edge, distance);
@@ -75,6 +83,7 @@ public class MyJGraphXAdapter    extends
             }
             ++i;
         }
+
 
         // positioning via jgraphx layouts
         mxCircleLayout layout = new mxCircleLayout(jgxAdapter);
