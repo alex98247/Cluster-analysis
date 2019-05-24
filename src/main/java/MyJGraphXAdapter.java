@@ -6,17 +6,19 @@ import org.jgrapht.ext.JGraphXAdapter;
 import org.jgrapht.graph.*;
 import org.jgrapht.*;
 import javax.swing.*;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.awt.*;
 
-public class MyJGraphXAdapter    extends
-        JApplet {
+public class MyJGraphXAdapter extends JApplet {
 
-    private double maxDistance = 0.9;
+    private double maxDistance;
 
     private int maxPersonNumber;
+
+    private int clusterNumber;
 
     private static final long serialVersionUID = 2202072534703043194L;
 
@@ -24,9 +26,10 @@ public class MyJGraphXAdapter    extends
 
     private JGraphXAdapter<Person, MyEdge> jgxAdapter;
 
-    public MyJGraphXAdapter(int maxPersonNumber, double maxDistance){
+    public MyJGraphXAdapter(int maxPersonNumber, double maxDistance, int clusterNumber){
         this.maxPersonNumber = maxPersonNumber;
         this.maxDistance = maxDistance;
+        this.clusterNumber = clusterNumber;
     }
 
 
@@ -59,18 +62,51 @@ public class MyJGraphXAdapter    extends
         getContentPane().add(component);
         resize(DEFAULT_SIZE);
 
-        List<Person> generate = Generator.generate(100000);
+        /*List<Person> generate = Generator.generate(maxPersonNumber);
         Iterator<Person> iterator = generate.iterator();
 
         int i = 0;
         HashSet<Person> personSet = new HashSet<Person>();
+        List<HashSet<Person>> clustersList = new ArrayList<HashSet<Person>>();
         //SorensenDice sorensenDice = new SorensenDice();
         JaroWinkler metrics = new JaroWinkler();
-        while (iterator.hasNext() && i < maxPersonNumber){
+        while (iterator.hasNext()){
+            if (i % 1000 == 0){
+                System.out.println(i);
+            }
             Person person = iterator.next();
             g.addVertex(person);
             personSet.add(person);
-            for (Person curPerson:personSet) {
+
+            if (i == 0){
+                HashSet<Person> cluster = new HashSet<Person>();
+                cluster.add(person);
+                clustersList.add(cluster);
+            }
+
+            boolean addedToCluster = false;
+            for (HashSet<Person> cluster : clustersList){
+                for (Person curPerson : cluster){
+                    double distance = Metrica.getDistance(person.name, curPerson.name);
+                    if (distance < maxDistance) {
+                        MyEdge edge = g.addEdge(person, curPerson);
+                        g.setEdgeWeight(edge, distance);
+                        cluster.add(person);
+                        addedToCluster = true;
+                        break;
+                    }
+                }
+                if (addedToCluster) {
+                    break;
+                }
+            }
+            if (!addedToCluster){
+                HashSet<Person> clusterToAdd = new HashSet<Person>();
+                clusterToAdd.add(person);
+                clustersList.add(clusterToAdd);
+            }
+
+            /*for (Person curPerson:personSet) {
                 if (curPerson.equals(person))
                     continue;
                 double distance = Metrica.getDistance(person.name, curPerson.name);
@@ -79,12 +115,18 @@ public class MyJGraphXAdapter    extends
                 if (distance < maxDistance) {
                     MyEdge edge = g.addEdge(person, curPerson);
                     g.setEdgeWeight(edge, distance);
+                    break;
                 }
-            }
+            }//
             ++i;
         }
 
+        System.out.println("There are " + clustersList.size() + " clusters");
+        for (HashSet<Person> cluster : clustersList){
+            System.out.print(cluster.size() + "   ");
+        }*/
 
+        List<HashSet<Person>> clustersList = GraphBuilder.build(maxPersonNumber, maxDistance, g, clusterNumber);
         // positioning via jgraphx layouts
         mxCircleLayout layout = new mxCircleLayout(jgxAdapter);
 

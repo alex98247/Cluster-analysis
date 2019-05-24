@@ -62,7 +62,7 @@ public class Metrica {
     public static double getDistance(String string1, String string2){
         DoubleMetaphone doubleMetaphone = new DoubleMetaphone();
         double distance = getJaccardDistance(doubleMetaphone.doubleMetaphone(string1), doubleMetaphone.doubleMetaphone(string2));
-        System.out.println(distance);
+        //System.out.println(distance);
         return distance;
     }
 }
